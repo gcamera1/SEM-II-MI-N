@@ -53,10 +53,32 @@ class Login extends Component {
                 <Header {...this.props} rol={'admin'} logged={false}/>
                 <div className='container'>
                     <div className="starter-template">
-                        <h1>Bootstrap starter template</h1>
-                        <p className="lead">
-                            Use this document as a way to quickly start any new project.
-                        </p>
+                        <div className="login-form">
+                            <div className="main-div">
+                                <div className="panel">
+                                    <h2>Inicia Sesión</h2>
+                                    <p>Por favor, ingresa tu email y contraseña.</p>
+                                </div>
+                                <form id="Login">
+                                    <div className="form-group">
+                                        <input type="email" className="form-control" id="inputEmail"
+                                               placeholder="Email"/>
+                                    </div>
+                                    <div className="form-group">
+                                        <input type="password" className="form-control"
+                                               id="inputPassword" placeholder="Contraseña"/>
+                                    </div>
+                                    <div className="forgot">
+                                        <div>¿Olvidaste tu constraseña? Envianos un email a support@mail.com para recuperarla.</div>
+                                    </div>
+                                    <button type="submit" className="btn btn-primary">Inicia Sesión</button>
+                                    <div className="sign-up">
+                                        <a href="reset.html">¿Todavía no tenes una cuenta? Hace click acá.</a>
+                                    </div>
+                                </form>
+                            </div>
+                            <p className="botto-text"> Designed by G.C.</p>
+                        </div>
 
                         {/*         <div className="box-content">
                             <div className="login-content">
