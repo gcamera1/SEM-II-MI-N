@@ -4,15 +4,18 @@ import { doLogin } from '../common/actions';
 import { setStorage } from '../common/storage';
 import Sidebar from "../common/Sidebar";
 import DatePicker from 'react-date-picker'
+import moment from 'moment';
 
 class SignUp extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
             email: null,
             password: null,
             error: null,
-            cargando: false
+            cargando: false,
+            startDate: new Date()
         };
     }
 
@@ -55,6 +58,9 @@ class SignUp extends Component {
         this.props.history.push('/' + state);
     }
 
+
+    onChange = date => this.setState({ date });
+
     render() {
         return (
             <div id="wrapper">
@@ -84,12 +90,18 @@ class SignUp extends Component {
                                                id="inputEmail"
                                                placeholder="Email"/>
                                     </div>
-                                    <div className="form-group">
-                                        <input type="date" className="form-control"
-                                               id="inputFechaNac"
-                                               placeholder="dd/mm/yyyy"/>
+                                    <div className="form-group datepicker-field">
+                                        <input type="text" className="form-control datepicker-placeholder" readOnly={true}
+                                               placeholder="Fecha Nac."/>
+                                        <DatePicker
+                                            name={'inputNac'}
+                                            maxDate={new Date()}
+                                            clearIcon={null}
+                                            className={['form-control', 'datepicker-input']}
+                                            onChange={this.onChange}
+                                            value={this.state.date}
+                                        />
                                     </div>
-                                    <DatePicker/>
                                     <div className="form-group">
                                         <input type="password" className="form-control"
                                                id="inputPassword" placeholder="Contraseña"/>

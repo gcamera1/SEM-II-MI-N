@@ -156,3 +156,33 @@ a {
 .signup-form .btn.btn-primary.reset {
     background: #ff9900 none repeat scroll 0 0;
 }
+
+.react-date-picker__wrapper {
+    display: flex;
+    align-items: center;
+    border: none !important;
+    width: 100%;
+}
+
+.react-date-picker__calendar {
+    width: 300px !important;
+    left: -93px !important;
+}
+
+.datepicker-field {
+    display: flex;
+}
+
+.datepicker-placeholder {
+    width: 35% !important;
+    border-bottom-right-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    border-right: none !important;
+}
+
+.datepicker-input {
+    width: 65% !important;
+    border-bottom-left-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+    border-left: none !important;
+}
