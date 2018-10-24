@@ -42,13 +42,13 @@
 
 @media (max-width: 990px) {
     .main-div {
-        max-width: 60%;
+        max-width: 70%;
     }
 }
 
 @media (max-width: 690px) {
     .main-div {
-        max-width: 80%;
+        max-width: 90%;
     }
 }
 

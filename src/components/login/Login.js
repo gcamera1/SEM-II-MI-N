@@ -3,6 +3,7 @@ import '../../styles/login.css';
 import Header from '../common/Header';
 import { doLogin } from '../common/actions';
 import { setStorage } from '../common/storage';
+import Sidebar from "../common/Sidebar";
 
 class Login extends Component {
     constructor(props) {
@@ -20,22 +21,25 @@ class Login extends Component {
             this.setState({cargando: true}, () => {
                 doLogin(this.state.email, this.state.password)
                     .then((resp) => {
-                        if(resp.pacientes) delete resp['pacientes'];
-                        if(resp.rol) {
+                        if (resp.pacientes) delete resp['pacientes'];
+                        if (resp.rol) {
                             const rol = resp.rol;
                             delete resp['rol'];
                             resp.rol = rol.nombre;
                             resp.level = rol;
                         }
-                        if(resp.codigo) resp.id = resp.codigo;
-                        if(resp.razon_social) resp.empresa = resp.razon_social;
-
+                        if (resp.codigo) resp.id = resp.codigo;
+                        if (resp.razon_social) resp.empresa = resp.razon_social;
                         setStorage('session', JSON.stringify(resp));
-
                         this.setState({cargando: true});
                         if (resp.rol === 'admin') return this.props.history.push('/listado-solicitudes-bh');
                         //if (resp.rol === 'usuario') return this.props.history.push('/listado-inasistencia');
-                        if (!resp.rol) return this.setState({error: 'Algo salió mal', cargando: false, email: null, password: null,});
+                        if (!resp.rol) return this.setState({
+                            error: 'Algo salió mal',
+                            cargando: false,
+                            email: null,
+                            password: null,
+                        });
                     })
                     .catch((err) => {
                         this.setState({error: 'Algún dato es incorrecto', cargando: false});
@@ -49,11 +53,12 @@ class Login extends Component {
 
     render() {
         return (
-            <div>
+            <div id="wrapper">
                 <Header {...this.props} rol={'admin'} logged={false}/>
-                <div className='container'>
-                    <div className="starter-template">
-                        <div className="login-form">
+                <Sidebar {...this.props} rol={'admin'} logged={false}/>
+                <div id="page-content-wrapper">
+                    <div className='container-fluid'>
+                        <div className="row login-form">
                             <div className="main-div">
                                 <div className="panel">
                                     <h2>Inicia Sesión</h2>
@@ -61,7 +66,8 @@ class Login extends Component {
                                 </div>
                                 <form id="Login">
                                     <div className="form-group">
-                                        <input type="email" className="form-control" id="inputEmail"
+                                        <input type="email" className="form-control"
+                                               id="inputEmail"
                                                placeholder="Email"/>
                                     </div>
                                     <div className="form-group">
@@ -69,11 +75,16 @@ class Login extends Component {
                                                id="inputPassword" placeholder="Contraseña"/>
                                     </div>
                                     <div className="forgot">
-                                        <div>¿Olvidaste tu constraseña? Envianos un email a support@mail.com para recuperarla.</div>
+                                        <div>¿Olvidaste tu constraseña? Envianos un email a
+                                            support@mail.com para recuperarla.
+                                        </div>
                                     </div>
-                                    <button type="submit" className="btn btn-primary">Inicia Sesión</button>
+                                    <button type="submit" className="btn btn-primary">Inicia
+                                        Sesión
+                                    </button>
                                     <div className="sign-up">
-                                        <a href="reset.html">¿Todavía no tenes una cuenta? Hace click acá.</a>
+                                        <a href="reset.html">¿Todavía no tenes una cuenta? Hace
+                                            click acá.</a>
                                     </div>
                                 </form>
                             </div>
