@@ -3,8 +3,9 @@ import Header from '../common/Header';
 import { doLogin } from '../common/actions';
 import { setStorage } from '../common/storage';
 import Sidebar from "../common/Sidebar";
+import DatePicker from 'react-date-picker'
 
-class Login extends Component {
+class SignUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -64,77 +65,52 @@ class Login extends Component {
                         <div className="row login-form">
                             <div className="main-div">
                                 <div className="panel">
-                                    <h2>Inicia Sesión</h2>
-                                    <p>Por favor, ingresa tu email y contraseña.</p>
+                                    <h2>Registrate</h2>
+                                    <p>Por favor, ingresa tus datos.</p>
                                 </div>
                                 <form id="Login">
+                                    <div className="form-group">
+                                        <input type="text" className="form-control"
+                                               id="inputNombre"
+                                               placeholder="Nombre"/>
+                                    </div>
+                                    <div className="form-group">
+                                        <input type="text" className="form-control"
+                                               id="inputApellido"
+                                               placeholder="Apellido"/>
+                                    </div>
                                     <div className="form-group">
                                         <input type="email" className="form-control"
                                                id="inputEmail"
                                                placeholder="Email"/>
                                     </div>
                                     <div className="form-group">
+                                        <input type="date" className="form-control"
+                                               id="inputFechaNac"
+                                               placeholder="dd/mm/yyyy"/>
+                                    </div>
+                                    <DatePicker/>
+                                    <div className="form-group">
                                         <input type="password" className="form-control"
                                                id="inputPassword" placeholder="Contraseña"/>
                                     </div>
-                                    <div className="forgot">
-                                        <div>¿Olvidaste tu constraseña? Envianos un email a
-                                            support@mail.com para recuperarla.
-                                        </div>
+                                    <div className="form-group">
+                                        <input type="password" className="form-control"
+                                               id="inputPassword2"
+                                               placeholder="Repeti Contraseña"/>
                                     </div>
-                                    <button type="submit" className="btn btn-primary">Inicia
-                                        Sesión
+                                    <button type="submit"
+                                            className="btn btn-primary">Registrarme
                                     </button>
                                     <div className="link-text">
-                                        <a onClick={() => this.goTo('sign-up')}>¿Todavía no
-                                            tenes una cuenta? Hace
+                                        <a onClick={() => this.goTo('')}>¿Ya tenes una cuenta?
+                                            Hace
                                             click acá.</a>
                                     </div>
                                 </form>
                             </div>
                             <p className="botto-text"> Designed by G.C.</p>
                         </div>
-
-                        {/*         <div className="box-content">
-                            <div className="login-content">
-                                {(this.state.cargando)
-                                    ?
-                                    <i className="fa fa-spinner fa-spin text-center loading-size"/>
-                                    :
-                                    <div className="form">
-                                        <div className="form-content">
-                                            <h2>Ingresar</h2>
-                                            <form>
-                                                <label>E-mail</label>
-                                                <input type="text"
-                                                       name="email"
-                                                       onChange={(evt) => this.setState({email: evt.target.value})}
-                                                       placeholder="E-mail"/>
-                                                <label>Contraseña</label>
-                                                <input type="password"
-                                                       name="password"
-                                                       onChange={(evt) => this.setState({password: evt.target.value})}
-                                                       placeholder="Contraseña"/>
-                                                <div className="error-message">
-                                                    {this.state.error &&
-                                                    <span>{this.state.error}</span>
-                                                    }
-                                                </div>
-                                                <div className="password-recovery">
-                                                    <a onClick={() => this.props.history.push('/recuperar-password')}>¿Perdiste
-                                                        tu contraseña?</a>
-                                                </div>
-                                                <button type="button"
-                                                        onClick={this.iniciarSesion.bind(this)}>
-
-                                                    Ingresar
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-                        </div>*/}
                     </div>
                 </div>
             </div>
@@ -142,4 +118,4 @@ class Login extends Component {
     }
 }
 
-export default Login;
+export default SignUp;
