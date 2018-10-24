@@ -65,7 +65,6 @@ class SignUp extends Component {
         return (
             <div id="wrapper">
                 <Header {...this.props} rol={'admin'} logged={false}/>
-                <Sidebar {...this.props} rol={'admin'} logged={false}/>
                 <div id="page-content-wrapper">
                     <div className='container-fluid'>
                         <div className="row login-form">

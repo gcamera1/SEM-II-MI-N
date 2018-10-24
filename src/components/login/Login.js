@@ -58,7 +58,6 @@ class Login extends Component {
         return (
             <div id="wrapper">
                 <Header {...this.props} rol={'admin'} logged={false}/>
-                <Sidebar {...this.props} rol={'admin'} logged={false}/>
                 <div id="page-content-wrapper">
                     <div className='container-fluid'>
                         <div className="row login-form">
@@ -82,8 +81,8 @@ class Login extends Component {
                                             support@mail.com para recuperarla.
                                         </div>
                                     </div>
-                                    <button type="submit" className="btn btn-primary">Inicia
-                                        Sesión
+                                    <button type="submit" className="btn btn-primary" onClick={() => this.goTo('home')}>
+                                        Inicia Sesión
                                     </button>
                                     <div className="link-text">
                                         <a onClick={() => this.goTo('sign-up')}>¿Todavía no

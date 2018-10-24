@@ -4,7 +4,7 @@ import { removeStorage } from '../common/storage';
 class Sidebar extends Component {
 
     goTo(route) {
-        return this.props.history.push(route);
+        return this.props.history.push('/' + route);
     }
 
     isActive(path) {
@@ -22,26 +22,27 @@ class Sidebar extends Component {
                 <nav id="spy">
                     <ul className="sidebar-nav nav">
                         <li className="sidebar-brand">
-                            <a href="#home"><span className="fa fa-home solo">Home</span></a>
+                            <div className="img-avatar-container">
+                                <img src={require('../../images/512x512bb.jpg')} className="img-circle img-avatar"
+                                     width="304" height="236"/>
+                            </div>
+                            <div className="text-avatar">
+                                <span>Gonzalo Cámera</span>
+                            </div>
                         </li>
                         <li>
-                            <a href="#anch1">
-                                <span className="fa fa-anchor solo">Anchor 1</span>
+                            <a onClick={() => this.goTo('home')}>
+                                <span className="fa fa-home solo"/><span>Home</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#anch2">
-                                <span className="fa fa-anchor solo">Anchor 2</span>
+                            <a onClick={() => this.goTo('sign-up')}>
+                                <span>Sign UP</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#anch3">
-                                <span className="fa fa-anchor solo">Anchor 3</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#anch4">
-                                <span className="fa fa-anchor solo">Anchor 4</span>
+                            <a onClick={() => this.logout()}>
+                                <span>Cerrar Sesión</span>
                             </a>
                         </li>
                     </ul>
