@@ -95,6 +95,7 @@ a.hamburger-btn {
     margin: 0;
     padding: 0;
     list-style: none;
+    margin-bottom: 35px;
 }
 
 .sidebar-nav li {
@@ -211,4 +212,40 @@ background: none;
     position: relative;
     margin-right: 0;
 }
+}
+
+.social-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 15px;
+    border-bottom: 1px solid #0e0e0e;
+    position: relative;
+    padding: 10px 15px;
+    text-indent: 0;
+    line-height: 0;
+}
+
+.social-text {
+    padding-left: 20px;
+}
+
+.social-img-cont {
+    display: flex;
+}
+
+.social-img-cont a {
+    border-bottom: none !important;
+}
+
+.social-img-cont a:first-child {
+    margin-right: 10px
+}
+
+.social-img img {
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
 }
