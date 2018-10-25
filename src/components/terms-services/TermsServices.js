@@ -7,11 +7,23 @@ class TermsServices extends Component {
         super(props);
     }
 
+    componentDidMount() {
+        if(this.props.location.state.rol === 'shopper') {
+            let element = document.getElementById('body');
+            element.classList.add('shopper-background');
+        }
+    }
+
+    componentWillUnmount() {
+        let element = document.getElementById('body');
+        element.classList.remove('shopper-background');
+    }
+
     render() {
         return (
             <div id="wrapper">
-                <Header {...this.props} rol={'user'} logged={true}/>
-                <Sidebar {...this.props} rol={'user'}/>
+                <Header {...this.props} rol={this.props.location.state.rol || 'user'} logged={true}/>
+                <Sidebar {...this.props} rol={this.props.location.state.rol || 'user'}/>
                 <div id="page-content-wrapper">
                     <div className='container-fluid'>
                         <div className='document'>
