@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Header from '../common/Header';
 import { doLogin } from '../common/actions';
 import { setStorage } from '../common/storage';
-import Sidebar from "../common/Sidebar";
 
 class Login extends Component {
     constructor(props) {
@@ -17,7 +16,8 @@ class Login extends Component {
 
     iniciarSesion() {
         if (this.state.email && this.state.password) {
-            this.setState({cargando: true}, () => {
+            return this.props.history.push('/home');
+            /*this.setState({cargando: true}, () => {
                 doLogin(this.state.email, this.state.password)
                     .then((resp) => {
                         if (resp.pacientes) delete resp['pacientes'];
@@ -44,9 +44,9 @@ class Login extends Component {
                         this.setState({error: 'Algún dato es incorrecto', cargando: false});
                         console.log(err);
                     })
-            });
+            });*/
         } else {
-            this.setState({error: 'Debe ingresar todos los campos'});
+            this.setState({error: 'Tenes que ingresar todos los campos'});
         }
     }
 
@@ -58,6 +58,7 @@ class Login extends Component {
         return (
             <div id="wrapper">
                 <Header {...this.props} rol={'admin'} logged={false}/>
+                {this.state.cargando && <div className="loading">Loading&#8230;</div>}
                 <div id="page-content-wrapper">
                     <div className='container-fluid'>
                         <div className="row login-form">
@@ -70,10 +71,12 @@ class Login extends Component {
                                     <div className="form-group">
                                         <input type="email" className="form-control"
                                                id="inputEmail"
+                                               onChange={(evt) => this.setState({email: evt.target.value})}
                                                placeholder="Email"/>
                                     </div>
                                     <div className="form-group">
                                         <input type="password" className="form-control"
+                                               onChange={(evt) => this.setState({password: evt.target.value})}
                                                id="inputPassword" placeholder="Contraseña"/>
                                     </div>
                                     <div className="forgot">
@@ -81,7 +84,12 @@ class Login extends Component {
                                             support@mail.com para recuperarla.
                                         </div>
                                     </div>
-                                    <button type="submit" className="btn btn-primary" onClick={() => this.goTo('home')}>
+                                    <div className="error-message">
+                                        {this.state.error &&
+                                        <span>{this.state.error}</span>
+                                        }
+                                    </div>
+                                    <button type="button" className="btn btn-primary" onClick={this.iniciarSesion.bind(this)}>
                                         Inicia Sesión
                                     </button>
                                     <div className="link-text">
@@ -93,47 +101,6 @@ class Login extends Component {
                             </div>
                             <p className="botto-text"> Designed by G.C.</p>
                         </div>
-
-                        {/*         <div className="box-content">
-                            <div className="login-content">
-                                {(this.state.cargando)
-                                    ?
-                                    <i className="fa fa-spinner fa-spin text-center loading-size"/>
-                                    :
-                                    <div className="form">
-                                        <div className="form-content">
-                                            <h2>Ingresar</h2>
-                                            <form>
-                                                <label>E-mail</label>
-                                                <input type="text"
-                                                       name="email"
-                                                       onChange={(evt) => this.setState({email: evt.target.value})}
-                                                       placeholder="E-mail"/>
-                                                <label>Contraseña</label>
-                                                <input type="password"
-                                                       name="password"
-                                                       onChange={(evt) => this.setState({password: evt.target.value})}
-                                                       placeholder="Contraseña"/>
-                                                <div className="error-message">
-                                                    {this.state.error &&
-                                                    <span>{this.state.error}</span>
-                                                    }
-                                                </div>
-                                                <div className="password-recovery">
-                                                    <a onClick={() => this.props.history.push('/recuperar-password')}>¿Perdiste
-                                                        tu contraseña?</a>
-                                                </div>
-                                                <button type="button"
-                                                        onClick={this.iniciarSesion.bind(this)}>
-
-                                                    Ingresar
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-                        </div>*/}
                     </div>
                 </div>
             </div>

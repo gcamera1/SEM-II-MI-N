@@ -26,7 +26,12 @@ class Header extends Component {
     }
 
     goToHome() {
-        return this.props.history.push('/home');
+        const currentRouteName = this.props.location.pathname;
+        if(currentRouteName === '/' || currentRouteName === '/sign-up') {
+            return this.props.history.push('/');
+        } else {
+            return this.props.history.push('/home');
+        }
     }
 
     render() {

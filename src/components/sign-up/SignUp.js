@@ -2,26 +2,29 @@ import React, { Component } from 'react';
 import Header from '../common/Header';
 import { doLogin } from '../common/actions';
 import { setStorage } from '../common/storage';
-import Sidebar from "../common/Sidebar";
 import DatePicker from 'react-date-picker'
 import moment from 'moment';
 
 class SignUp extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
+            nombre: null,
+            apellido: null,
             email: null,
+            fechaNac: null,
             password: null,
+            password2: null,
             error: null,
-            cargando: false,
-            startDate: new Date()
+            cargando: false
         };
     }
 
-    iniciarSesion() {
-        if (this.state.email && this.state.password) {
-            this.setState({cargando: true}, () => {
+    registrarUsuario() {
+        let error = this.validarDatos();
+        if (!error) {
+            return this.props.history.push('/');
+            /*this.setState({cargando: true}, () => {
                 doLogin(this.state.email, this.state.password)
                     .then((resp) => {
                         if (resp.pacientes) delete resp['pacientes'];
@@ -48,23 +51,36 @@ class SignUp extends Component {
                         this.setState({error: 'Algún dato es incorrecto', cargando: false});
                         console.log(err);
                     })
-            });
+            });*/
         } else {
-            this.setState({error: 'Debe ingresar todos los campos'});
+            this.setState({error: error});
         }
+    }
+
+    validarDatos() {
+        let error = null;
+        if (!this.state.nombre) return error = 'Tenes que ingresar tu nombre';
+        if (!this.state.apellido) return error = 'Tenes que ingresar tu apellido';
+        if (!this.state.email) return error = 'Tenes que ingresar tu email';
+        if (!this.state.fechaNac) return error = 'Tenes que ingresar tu fecha de nacimiento';
+        if (!this.state.password) return error = 'Tenes que ingresar una contraseña';
+        if (!this.state.password2) return error = 'Tenes que ingresar nuevamente tu contraseña';
+        if (this.state.password !== this.state.password2) return error = 'Las contraseñas no coinciden';
+
+        return error;
     }
 
     goTo(state) {
         this.props.history.push('/' + state);
     }
 
-
-    onChange = date => this.setState({ date });
+    onChangeDate = date => this.setState({fechaNac: date});
 
     render() {
         return (
             <div id="wrapper">
                 <Header {...this.props} rol={'admin'} logged={false}/>
+                {this.state.cargando && <div className="loading">Loading&#8230;</div>}
                 <div id="page-content-wrapper">
                     <div className='container-fluid'>
                         <div className="row login-form">
@@ -77,40 +93,53 @@ class SignUp extends Component {
                                     <div className="form-group">
                                         <input type="text" className="form-control"
                                                id="inputNombre"
+                                               onChange={(evt) => this.setState({nombre: evt.target.value})}
                                                placeholder="Nombre"/>
                                     </div>
                                     <div className="form-group">
                                         <input type="text" className="form-control"
                                                id="inputApellido"
+                                               onChange={(evt) => this.setState({apellido: evt.target.value})}
                                                placeholder="Apellido"/>
                                     </div>
                                     <div className="form-group">
                                         <input type="email" className="form-control"
                                                id="inputEmail"
+                                               onChange={(evt) => this.setState({email: evt.target.value})}
                                                placeholder="Email"/>
                                     </div>
                                     <div className="form-group datepicker-field">
-                                        <input type="text" className="form-control datepicker-placeholder" readOnly={true}
+                                        <input type="text"
+                                               className="form-control datepicker-placeholder"
+                                               readOnly={true}
                                                placeholder="Fecha Nac."/>
                                         <DatePicker
                                             name={'inputNac'}
                                             maxDate={new Date()}
                                             clearIcon={null}
                                             className={['form-control', 'datepicker-input']}
-                                            onChange={this.onChange}
-                                            value={this.state.date}
+                                            onChange={this.onChangeDate}
+                                            value={this.state.fechaNac}
                                         />
                                     </div>
                                     <div className="form-group">
                                         <input type="password" className="form-control"
+                                               onChange={(evt) => this.setState({password: evt.target.value})}
                                                id="inputPassword" placeholder="Contraseña"/>
                                     </div>
                                     <div className="form-group">
                                         <input type="password" className="form-control"
                                                id="inputPassword2"
+                                               onChange={(evt) => this.setState({password2: evt.target.value})}
                                                placeholder="Repeti Contraseña"/>
                                     </div>
-                                    <button type="submit"
+                                    <div className="error-message">
+                                        {this.state.error &&
+                                        <span>{this.state.error}</span>
+                                        }
+                                    </div>
+                                    <button type="button"
+                                            onClick={this.registrarUsuario.bind(this)}
                                             className="btn btn-primary">Registrarme
                                     </button>
                                     <div className="link-text">
