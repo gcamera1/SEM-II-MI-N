@@ -332,3 +332,20 @@ a {
     color: white;
     font-weight: 400;
 }
+
+.calendar-custom {
+    width: 100% !important;
+}
+
+.time-picker {
+    display: flex;
+    flex-direction: row;
+}
+
+.time-picker>div {
+    width: 32%;
+}
+
+.time-middle {
+    margin: 0 9px;
+}

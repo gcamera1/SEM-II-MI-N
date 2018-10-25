@@ -8,6 +8,7 @@ import HomeShopper from './home-shopper/HomeShopper';
 import Profile from './profile/Profile';
 import Privacy from './privacy/Privacy';
 import TermsServices from './terms-services/TermsServices';
+import SelectTimeToShop from './select-time-to-shop/SelectTimeToShop';
 
 const Router = () => (
     <main>
@@ -16,6 +17,7 @@ const Router = () => (
             <Route exact path='/shopper' component={LoginShopper}/>
             <Route exact path='/sign-up' component={SignUp}/>
             <Route exact path='/home' component={Home}/>
+            <Route exact path='/select-time-to-shop' component={SelectTimeToShop}/>
             <Route exact path='/home-shopper' component={HomeShopper}/>
             <Route exact path='/profile' component={Profile}/>
             <Route exact path='/privacy' component={Privacy}/>
