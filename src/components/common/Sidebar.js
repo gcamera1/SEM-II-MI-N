@@ -13,7 +13,11 @@ class Sidebar extends Component {
 
     logout() {
         removeStorage('session');
-        return this.props.history.push('/');
+        if(this.props.rol === 'user'){
+            return this.props.history.push('/');
+        } else {
+            return this.props.history.push('/shopper');
+        }
     }
 
     render() {
@@ -23,8 +27,7 @@ class Sidebar extends Component {
                     <ul className="sidebar-nav nav">
                         <li className="sidebar-brand">
                             <div className="img-avatar-container">
-                                <img src={require('../../images/512x512bb.jpg')} className="img-circle img-avatar"
-                                     width="304" height="236"/>
+                                <img src={require('../../images/512x512bb.jpg')} className="img-circle img-avatar"/>
                             </div>
                             <div className="text-avatar">
                                 <span>Gonzalo Cámera</span>

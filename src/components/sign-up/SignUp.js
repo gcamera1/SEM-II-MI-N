@@ -79,7 +79,7 @@ class SignUp extends Component {
     render() {
         return (
             <div id="wrapper">
-                <Header {...this.props} rol={'admin'} logged={false}/>
+                <Header {...this.props} rol={'user'} logged={false}/>
                 {this.state.cargando && <div className="loading">Loading&#8230;</div>}
                 <div id="page-content-wrapper">
                     <div className='container-fluid'>

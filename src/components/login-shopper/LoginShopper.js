@@ -3,7 +3,7 @@ import Header from '../common/Header';
 import { doLogin } from '../common/actions';
 import { setStorage } from '../common/storage';
 
-class Login extends Component {
+class LoginShopper extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -14,9 +14,19 @@ class Login extends Component {
         };
     }
 
+    componentDidMount() {
+        let element = document.getElementById('body');
+        element.classList.add('shopper-background');
+    }
+
+    componentWillUnmount() {
+        let element = document.getElementById('body');
+        element.classList.remove('shopper-background');
+    }
+
     iniciarSesion() {
         if (this.state.email && this.state.password) {
-            return this.props.history.push('/home');
+            return this.props.history.push('/home-shopper');
             /*this.setState({cargando: true}, () => {
                 doLogin(this.state.email, this.state.password)
                     .then((resp) => {
@@ -50,14 +60,10 @@ class Login extends Component {
         }
     }
 
-    goTo(state) {
-        this.props.history.push('/' + state);
-    }
-
     render() {
         return (
             <div id="wrapper">
-                <Header {...this.props} rol={'user'} logged={false}/>
+                <Header {...this.props} rol={'shopper'} logged={false}/>
                 {this.state.cargando && <div className="loading">Loading&#8230;</div>}
                 <div id="page-content-wrapper">
                     <div className='container-fluid'>
@@ -92,11 +98,6 @@ class Login extends Component {
                                     <button type="button" className="btn btn-primary" onClick={this.iniciarSesion.bind(this)}>
                                         Inicia Sesión
                                     </button>
-                                    <div className="link-text">
-                                        <a onClick={() => this.goTo('sign-up')}>¿Todavía no
-                                            tenes una cuenta? Hace
-                                            click acá.</a>
-                                    </div>
                                 </form>
                             </div>
                             <p className="botto-text"> Designed by G.C.</p>
@@ -108,4 +109,4 @@ class Login extends Component {
     }
 }
 
-export default Login;
+export default LoginShopper;

@@ -1,33 +1,33 @@
 import React, { Component } from 'react';
 import Header from '../common/Header';
 import Sidebar from "../common/Sidebar";
-import Calendar from 'react-calendar';
 
-class Home extends Component {
+class HomeShopper extends Component {
+
     constructor(props) {
         super(props);
-        this.state = {
-            date: new Date()
-        };
     }
 
-    goTo(state) {
-        this.props.history.push('/' + state);
+    componentDidMount() {
+        let element = document.getElementById('body');
+        element.classList.add('shopper-background');
+    }
+
+    componentWillUnmount() {
+        let element = document.getElementById('body');
+        element.classList.remove('shopper-background');
     }
 
     render() {
         return (
             <div id="wrapper">
-                <Header {...this.props} rol={'user'} logged={true}/>
-                <Sidebar {...this.props} rol={'user'}/>
+                <Header {...this.props} rol={'shopper'} logged={true}/>
+                <Sidebar {...this.props} rol={'shopper'}/>
                 <div id="page-content-wrapper">
                     <div className='container-fluid'>
                         <div className="content-flex">
                             <div>
-                                <Calendar
-                                    onChange={this.onChange}
-                                    value={this.state.date}
-                                />
+                               SHOPPER HOME
                             </div>
                         </div>
                     </div>
@@ -37,4 +37,4 @@ class Home extends Component {
     }
 }
 
-export default Home;
+export default HomeShopper;

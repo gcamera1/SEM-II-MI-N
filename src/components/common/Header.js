@@ -27,10 +27,20 @@ class Header extends Component {
 
     goToHome() {
         const currentRouteName = this.props.location.pathname;
-        if(currentRouteName === '/' || currentRouteName === '/sign-up') {
-            return this.props.history.push('/');
-        } else {
-            return this.props.history.push('/home');
+        if(this.props.rol === 'user') {
+            if(currentRouteName === '/' || currentRouteName === '/sign-up') {
+                return this.props.history.push('/');
+            } else {
+                return this.props.history.push('/home');
+            }
+        }
+
+        if(this.props.rol === 'shopper') {
+            if(currentRouteName === '/shopper') {
+                return this.props.history.push('/shopper');
+            } else {
+                return this.props.history.push('/home-shopper');
+            }
         }
     }
 
@@ -45,6 +55,11 @@ class Header extends Component {
                             </a>}
                             <a className='navbar-name' onClick={()=>this.goToHome()}>Vesti.me</a>
                         </div>
+                        { (this.props.rol === 'shopper') &&
+                            <div className="img-avatar-container-shopper">
+                                <img src={require('../../images/shop.jpg')} className="img-avatar-shopper"/>
+                            </div>
+                        }
                     </div>
                 </div>
             </nav>
