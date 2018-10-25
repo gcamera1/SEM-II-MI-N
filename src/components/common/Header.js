@@ -56,11 +56,20 @@ class Header extends Component {
                             <a className='navbar-name' onClick={()=>this.goToHome()}>Vesti.me</a>
                         </div>
                         { (this.props.rol === 'shopper') &&
-                            <div className="img-avatar-container-shopper">
+                            <div className="img-avatar-container-shopper min-img">
                                 <img src={require('../../images/shop.jpg')} className="img-avatar-shopper"/>
                             </div>
                         }
                     </div>
+                    { (this.props.rol === 'shopper') &&
+                        <ul className="nav navbar-nav navbar-right max-img">
+                            <li>
+                                <div className="img-avatar-container-shopper">
+                                    <img src={require('../../images/shop.jpg')} className="img-avatar-shopper"/>
+                                </div>
+                            </li>
+                        </ul>
+                    }
                 </div>
             </nav>
         )

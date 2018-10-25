@@ -144,6 +144,18 @@ a.hamburger-btn {
     align-items: center;
 }
 
+@media(min-width:768px) {
+    .min-img {
+        display: none;
+    }
+}
+
+@media(max-width:768px) {
+    .max-img {
+        display: none;
+    }
+}
+
 .img-avatar-shopper {
     width: 30px;
     height: 30px;
