@@ -316,3 +316,19 @@ a {
     border-top-left-radius: 0 !important;
     border-left: none !important;
 }
+
+/*Terminos y condiciones y privacidad*/
+
+.document {
+    margin-bottom: 35px;
+}
+
+.document h2 {
+    color: white;
+    font-weight: 400;
+}
+
+.document p {
+    color: white;
+    font-weight: 400;
+}

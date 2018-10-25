@@ -105,7 +105,15 @@ a.hamburger-btn {
 .sidebar-nav li a {
     display: block;
     text-decoration: none;
-    color: #999999;
+    color: #ffffff;
+    font-size: 15px;
+    border-bottom: 1px solid #0e0e0e;
+}
+
+.sidebar-active {
+    text-decoration: none;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .sidebar-nav li a:hover {

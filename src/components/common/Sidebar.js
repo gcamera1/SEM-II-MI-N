@@ -34,13 +34,23 @@ class Sidebar extends Component {
                             </div>
                         </li>
                         <li>
-                            <a onClick={() => this.goTo('home')}>
-                                <span className="fa fa-home solo"/><span>Home</span>
+                            <a onClick={() => this.goTo('home')} className={this.isActive('/home') ? 'sidebar-active' : ''}>
+                               <span>Inicio</span>
                             </a>
                         </li>
                         <li>
-                            <a onClick={() => this.goTo('sign-up')}>
-                                <span>Sign UP</span>
+                            <a onClick={() => this.goTo('profile')} className={this.isActive('/profile') ? 'sidebar-active' : ''}>
+                                <span>Tu perfil</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a onClick={() => this.goTo('terms-services')} className={this.isActive('/terms-services') ? 'sidebar-active' : ''}>
+                                <span>Términos y condiciones</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a onClick={() => this.goTo('privacy')} className={this.isActive('/privacy') ? 'sidebar-active' : ''}>
+                                <span>Políticas de privacidad</span>
                             </a>
                         </li>
                         <li>
