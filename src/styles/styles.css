@@ -349,3 +349,56 @@ a {
 .time-middle {
     margin: 0 9px;
 }
+
+.book-info {
+    text-align: left;
+    margin-left: 14px;
+    margin-top: 25px;
+    margin-bottom: 27px;
+}
+
+.book-info div {
+    margin-bottom: 9px;
+}
+
+.book-info div:last-child {
+    margin-bottom: 0;
+}
+
+.book-info span {
+    font-size: 17px;
+}
+
+.book-info i {
+    margin-right: 14px;
+    color: #e87f85;
+}
+
+.book-title {
+    font-size: 19px !important;
+}
+
+.book-message {
+    margin-bottom: 40px;
+}
+
+.book-message h2{
+    font-size: 17px;
+}
+
+.button-book {
+    margin-bottom: 10px;
+}
+
+.divider {
+    border-top: 2px solid #333333;
+    width: 20px;
+    height: 20px;
+    margin: 0 auto;
+}
+
+.cancel-book {
+    text-align: center;
+    color: #777777;
+    font-size: 12px;
+}

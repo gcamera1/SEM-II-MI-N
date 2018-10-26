@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from '../common/Header';
 import Sidebar from "../common/Sidebar";
 import Select from 'react-select';
+import moment from 'moment/min/moment-with-locales';
 
 class Home extends Component {
     constructor(props) {
@@ -12,7 +13,7 @@ class Home extends Component {
             shoppings: [],
             error: null,
             cargando: false,
-            step: 1
+            book: null
         };
     }
 
@@ -24,7 +25,34 @@ class Home extends Component {
             {value: 10004, label: 'Dot'},
             {value: 10005, label: 'Messi'}
         ];
-        this.setState({shoppings: test})
+        const responseBookAlone = {
+            shopping: {
+                name: 'Alto Palermo',
+                address: 'Santa Fe 3050'
+            },
+            shopper: null,
+            book: {
+                date: moment(new Date()),
+                hour: '15:30 P.M.'
+            }
+        };
+        const responseBook = {
+            shopping: {
+                name: 'Alto Palermo',
+                address: 'Santa Fe 3050'
+            },
+            shopper: {
+                name: 'Flavio Mendoza',
+                phone: '1568384496'
+            },
+            book: {
+                date: moment(new Date()),
+                hour: '15:30 P.M.'
+            }
+        };
+        //this.setState({shoppings: test})
+        //this.setState({shoppings: test, book: responseBookAlone})
+        this.setState({shoppings: test, book: responseBook})
     }
 
     goTo(state) {
@@ -43,6 +71,16 @@ class Home extends Component {
         }
     }
 
+    formatDate(date) {
+        let currentDate = moment(date);
+        currentDate.locale('es');
+        return currentDate.format('ddd DD, MMMM YYYY');
+    }
+
+    cancelBook() {
+        this.setState({book: null})
+    }
+
     render() {
         return (
             <div id="wrapper">
@@ -52,6 +90,7 @@ class Home extends Component {
                 <div id="page-content-wrapper">
                     <div className='container-fluid'>
                         <div className="row login-form">
+                            {!this.state.book &&
                             <div className="main-div">
                                 <div className="panel">
                                     <h2>Seleccione su shopping</h2>
@@ -90,6 +129,76 @@ class Home extends Component {
                                     </button>
                                 </form>
                             </div>
+                            }
+                            {this.state.book &&
+                            <div className="main-div">
+                                <div className="panel">
+                                    <h2 className='book-title'>Tu encuentro</h2>
+                                </div>
+                                <div className='book-info'>
+                                    <div>
+                                        <span>
+                                            <i className="far fa-building"/>
+                                        </span>
+                                        <span>{this.state.book.shopping.name + ' (' + this.state.book.shopping.address + ')'}</span>
+                                    </div>
+                                    <div>
+                                        <span>
+                                            <i className="far fa-calendar-alt"/>
+                                        </span>
+                                        <span>{this.formatDate(this.state.book.book.date)}</span>
+                                    </div>
+                                    <div>
+                                        <span>
+                                            <i className="far fa-clock"/>
+                                        </span>
+                                        <span>{this.state.book.book.hour}</span>
+                                    </div>
+                                    <div>
+                                        <span>
+                                            <i className="far fa-user"/>
+                                        </span>
+                                        <span>
+                                            {(this.state.book.shopper) ? this.state.book.shopper.name : 'Estamos buscandote un personal shopper para vos'}
+                                        </span>
+                                    </div>
+                                    {this.state.book.shopper &&
+                                    <div>
+                                        <span>
+                                             <i className="fab fa-whatsapp"/>
+                                        </span>
+                                        <span>{this.state.book.shopper.phone}</span>
+                                    </div>
+                                    }
+                                </div>
+                                <div className="book-message">
+                                    <h2>¡Te esperamos!</h2>
+                                </div>
+                                <div className="link-text link-button">
+                                    <a data-toggle="modal" data-target=".bs-example-modal-sm">
+                                        Cancelar turno
+                                    </a>
+                                </div>
+                                <div className="cancel-book">
+                                    <span>*No te olvides que podes cancelar hasta 2 horas antes de tu encuentro</span>
+                                </div>
+
+                                <div className="modal fade bs-example-modal-sm" tabIndex="-1" role="dialog"
+                                     aria-labelledby="mySmallModalLabel">
+                                    <div className="modal-dialog modal-sm" role="document">
+                                        <div className="modal-content modal-text">
+                                            ¿Estás seguro que queres cancelar tu turno?
+                                        </div>
+                                        <div className="modal-footer">
+                                            <button type="button" className="btn btn-primary button-modal-back"
+                                                    data-dismiss="modal">Volver
+                                            </button>
+                                            <button type="button" data-dismiss="modal" onClick={this.cancelBook.bind(this)} className="btn btn-primary button-modal-accept">Cancelar turno</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            }
                             <p className="botto-text"> Designed by G.C.</p>
                         </div>
                     </div>
