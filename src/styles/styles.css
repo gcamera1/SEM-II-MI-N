@@ -382,6 +382,10 @@ a {
     margin-bottom: 40px;
 }
 
+.book-message-shopper {
+    margin-bottom: 0;
+}
+
 .book-message h2{
     font-size: 17px;
 }

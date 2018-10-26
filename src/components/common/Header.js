@@ -57,7 +57,7 @@ class Header extends Component {
                         </div>
                         { (this.props.rol === 'shopper') &&
                             <div className="img-avatar-container-shopper min-img">
-                                <img src={require('../../images/shop.jpg')} className="img-avatar-shopper"/>
+                                <i className="fas fa-shopping-bag img-avatar-shopper"/>
                             </div>
                         }
                     </div>
@@ -65,7 +65,7 @@ class Header extends Component {
                         <ul className="nav navbar-nav navbar-right max-img">
                             <li>
                                 <div className="img-avatar-container-shopper">
-                                    <img src={require('../../images/shop.jpg')} className="img-avatar-shopper"/>
+                                    <i className="fas fa-shopping-bag img-avatar-shopper"/>
                                 </div>
                             </li>
                         </ul>

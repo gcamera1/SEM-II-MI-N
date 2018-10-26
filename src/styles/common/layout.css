@@ -17,7 +17,7 @@ body {
 }
 
 .shopper-background {
-    background-image: linear-gradient(120deg, #e5fe31 0%, #f64839 100%) !important;
+    background-image: linear-gradient(120deg, #fffb7a 0%, #f68084 100%);
 }
 
 #wrapper {
@@ -166,11 +166,11 @@ a.hamburger-btn {
 }
 
 .img-avatar-shopper {
-    width: 30px;
-    height: 30px;
-    margin-right: 17px;
+    margin-right: 20px;
     border-radius: 5px;
     margin-top: 3px;
+    color: white;
+    font-size: 20px;
 }
 
 .text-avatar {
