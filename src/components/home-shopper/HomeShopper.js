@@ -32,7 +32,7 @@ class HomeShopper extends Component {
                 hour: '15:30 P.M.'
             }
         };
-        this.setState({book: responseBook})
+        this.setState({book: null})
     }
 
     componentWillUnmount() {
@@ -59,6 +59,9 @@ class HomeShopper extends Component {
                             <div className="main-div">
                                 <div className="panel">
                                     <h2>Aún no tenes una reserva</h2>
+                                </div>
+                                <div>
+                                    <i className="fas fa-bed shopper-wait"/>
                                 </div>
                             </div>
                             }
