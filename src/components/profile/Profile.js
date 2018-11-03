@@ -1,18 +1,23 @@
 import React, { Component } from 'react';
 import Header from '../common/Header';
-import { doLoginAsesorado } from '../common/actions';
-import { setStorage } from '../common/storage';
+import { doLoginAsesorado, actualizarAsesorado } from '../common/actions';
+import { setStorage, getStorage } from '../common/storage';
 import DatePicker from 'react-date-picker'
 import moment from 'moment';
 import Sidebar from "../common/Sidebar";
+import { setUserLocalStorage } from '../common/utils';
+import { toast } from 'react-toastify';
 
 class Profile extends Component {
     constructor(props) {
         super(props);
+        const user = JSON.parse(getStorage('session'));
+        const { id, nombre, apellido, fechaNac } = user;
         this.state = {
-            nombre: null,
-            apellido: null,
-            fechaNac: null,
+            id,
+            nombre,
+            apellido,
+            fechaNac,
             error: null,
             cargando: false
         };
@@ -21,35 +26,20 @@ class Profile extends Component {
     guardarPerfil() {
         let error = this.validarDatos();
         if (!error) {
-            return this.props.history.push('/home');
-            /*this.setState({cargando: true}, () => {
-                doLogin(this.state.email, this.state.password)
-                    .then((resp) => {
-                        if (resp.pacientes) delete resp['pacientes'];
-                        if (resp.rol) {
-                            const rol = resp.rol;
-                            delete resp['rol'];
-                            resp.rol = rol.nombre;
-                            resp.level = rol;
-                        }
-                        if (resp.codigo) resp.id = resp.codigo;
-                        if (resp.razon_social) resp.empresa = resp.razon_social;
-                        setStorage('session', JSON.stringify(resp));
-                        this.setState({cargando: true});
-                        if (resp.rol === 'admin') return this.props.history.push('/listado-solicitudes-bh');
-                        //if (resp.rol === 'usuario') return this.props.history.push('/listado-inasistencia');
-                        if (!resp.rol) return this.setState({
-                            error: 'Algo salió mal',
-                            cargando: false,
-                            email: null,
-                            password: null,
-                        });
+            const { id, nombre, apellido, fechaNac } = this.state;
+            this.setState({ cargando: true }, () => {
+                actualizarAsesorado({ id, nombre, apellido, fechaNac })
+                    .then(res => {
+                        setUserLocalStorage(res);
+                        this.setState({ cargando: false });
+                        toast.success('Éxito al actualizar perfil.');
+                        return this.props.history.push('/home');
                     })
-                    .catch((err) => {
-                        this.setState({error: 'Algún dato es incorrecto', cargando: false});
-                        console.log(err);
+                    .catch((error) => {
+                        this.setState({ error, cargando: false });
+                        console.log(error);
                     })
-            });*/
+            });
         } else {
             this.setState({ error: error });
         }
@@ -71,6 +61,7 @@ class Profile extends Component {
     onChangeDate = date => this.setState({ fechaNac: date });
 
     render() {
+        const { nombre, apellido, fechaNac } = this.state;
         return (
             <div id="wrapper">
                 <Header {...this.props} rol={'user'} logged={true} />
@@ -87,12 +78,14 @@ class Profile extends Component {
                                     <div className="form-group">
                                         <input type="text" className="form-control"
                                             id="inputNombre"
+                                            value={nombre}
                                             onChange={(evt) => this.setState({ nombre: evt.target.value })}
                                             placeholder="Nombre" />
                                     </div>
                                     <div className="form-group">
                                         <input type="text" className="form-control"
                                             id="inputApellido"
+                                            value={apellido}
                                             onChange={(evt) => this.setState({ apellido: evt.target.value })}
                                             placeholder="Apellido" />
                                     </div>
@@ -107,7 +100,7 @@ class Profile extends Component {
                                             clearIcon={null}
                                             className={['form-control', 'datepicker-input']}
                                             onChange={this.onChangeDate}
-                                            value={this.state.fechaNac}
+                                            value={fechaNac}
                                         />
                                     </div>
                                     <div className="error-message">

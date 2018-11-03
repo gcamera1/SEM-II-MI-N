@@ -36,9 +36,9 @@ class SignUp extends Component {
                         toast.success("Usuario creado con exito");
                         return this.props.history.push('/home');
                     })
-                    .catch((err) => {
-                        this.setState({ error: 'Algún dato es incorrecto', cargando: false });
-                        console.log(err);
+                    .catch((error) => {
+                        this.setState({ error, cargando: false });
+                        console.log(error);
                     })
             });
         } else {

@@ -20,7 +20,11 @@ export const listShoppings = () => axios.get(`${baseUrl}/api/shoppings`)
 export const registrarAsesorado = ({ nombre, apellido, email, fechaNac, password }) => axios.post(
     `${baseUrl}/api/asesorados`,
     { nombre, apellido, email, fechaNac, password }
-);
+).then(res => res.data);
+
+export const actualizarAsesorado = ({ id, nombre, apellido, fechaNac }) => axios.put(`${baseUrl}/api/asesorados/${id}`, {
+    nombre, apellido, fechaNac
+}).then(res => res.data);
 
 export function doLoginEmpleado(dni, empresa) {
     return fetch(`${baseUrl}/api/ingresarpaciente?dni=${dni}&nombreEmpresa=${empresa}`, {
