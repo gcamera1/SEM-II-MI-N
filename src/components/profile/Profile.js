@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Header from '../common/Header';
-import { doLogin } from '../common/actions';
+import { doLoginAsesorado } from '../common/actions';
 import { setStorage } from '../common/storage';
 import DatePicker from 'react-date-picker'
 import moment from 'moment';
@@ -51,7 +51,7 @@ class Profile extends Component {
                     })
             });*/
         } else {
-            this.setState({error: error});
+            this.setState({ error: error });
         }
     }
 
@@ -68,13 +68,13 @@ class Profile extends Component {
         this.props.history.push('/' + state);
     }
 
-    onChangeDate = date => this.setState({fechaNac: date});
+    onChangeDate = date => this.setState({ fechaNac: date });
 
     render() {
         return (
             <div id="wrapper">
-                <Header {...this.props} rol={'user'} logged={true}/>
-                <Sidebar {...this.props} rol={'user'}/>
+                <Header {...this.props} rol={'user'} logged={true} />
+                <Sidebar {...this.props} rol={'user'} />
                 {this.state.cargando && <div className="loading">Loading&#8230;</div>}
                 <div id="page-content-wrapper">
                     <div className='container-fluid'>
@@ -86,21 +86,21 @@ class Profile extends Component {
                                 <form id="Login">
                                     <div className="form-group">
                                         <input type="text" className="form-control"
-                                               id="inputNombre"
-                                               onChange={(evt) => this.setState({nombre: evt.target.value})}
-                                               placeholder="Nombre"/>
+                                            id="inputNombre"
+                                            onChange={(evt) => this.setState({ nombre: evt.target.value })}
+                                            placeholder="Nombre" />
                                     </div>
                                     <div className="form-group">
                                         <input type="text" className="form-control"
-                                               id="inputApellido"
-                                               onChange={(evt) => this.setState({apellido: evt.target.value})}
-                                               placeholder="Apellido"/>
+                                            id="inputApellido"
+                                            onChange={(evt) => this.setState({ apellido: evt.target.value })}
+                                            placeholder="Apellido" />
                                     </div>
                                     <div className="form-group datepicker-field">
                                         <input type="text"
-                                               className="form-control datepicker-placeholder"
-                                               readOnly={true}
-                                               placeholder="Fecha Nac."/>
+                                            className="form-control datepicker-placeholder"
+                                            readOnly={true}
+                                            placeholder="Fecha Nac." />
                                         <DatePicker
                                             name={'inputNac'}
                                             maxDate={new Date()}
@@ -112,12 +112,12 @@ class Profile extends Component {
                                     </div>
                                     <div className="error-message">
                                         {this.state.error &&
-                                        <span>{this.state.error}</span>
+                                            <span>{this.state.error}</span>
                                         }
                                     </div>
                                     <button type="button"
-                                            onClick={this.guardarPerfil.bind(this)}
-                                            className="btn btn-primary">Guardar
+                                        onClick={this.guardarPerfil.bind(this)}
+                                        className="btn btn-primary">Guardar
                                     </button>
                                 </form>
                             </div>

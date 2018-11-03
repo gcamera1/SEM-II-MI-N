@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import Header from '../common/Header';
-import { doLogin } from '../common/actions';
+import { doLoginAsesorado, registrarAsesorado } from '../common/actions';
 import { setStorage } from '../common/storage';
 import DatePicker from 'react-date-picker'
 import moment from 'moment';
+import { setUserLocalStorage } from '../common/utils';
+import { toast } from 'react-toastify';
 
 class SignUp extends Component {
     constructor(props) {
@@ -23,37 +25,24 @@ class SignUp extends Component {
     registrarUsuario() {
         let error = this.validarDatos();
         if (!error) {
-            return this.props.history.push('/');
-            /*this.setState({cargando: true}, () => {
-                doLogin(this.state.email, this.state.password)
+            // return this.props.history.push('/');
+            this.setState({ cargando: true }, () => {
+                const { nombre, apellido, email, fechaNac, password } = this.state;
+                registrarAsesorado({ nombre, apellido, email, fechaNac, password })
                     .then((resp) => {
-                        if (resp.pacientes) delete resp['pacientes'];
-                        if (resp.rol) {
-                            const rol = resp.rol;
-                            delete resp['rol'];
-                            resp.rol = rol.nombre;
-                            resp.level = rol;
-                        }
-                        if (resp.codigo) resp.id = resp.codigo;
-                        if (resp.razon_social) resp.empresa = resp.razon_social;
-                        setStorage('session', JSON.stringify(resp));
-                        this.setState({cargando: true});
-                        if (resp.rol === 'admin') return this.props.history.push('/listado-solicitudes-bh');
-                        //if (resp.rol === 'usuario') return this.props.history.push('/listado-inasistencia');
-                        if (!resp.rol) return this.setState({
-                            error: 'Algo salió mal',
-                            cargando: false,
-                            email: null,
-                            password: null,
-                        });
+                        this.setState({ cargando: false });
+                        console.log("Just created an asesorado: ", resp);
+                        setUserLocalStorage(resp);
+                        toast.success("Usuario creado con exito");
+                        return this.props.history.push('/home');
                     })
                     .catch((err) => {
-                        this.setState({error: 'Algún dato es incorrecto', cargando: false});
+                        this.setState({ error: 'Algún dato es incorrecto', cargando: false });
                         console.log(err);
                     })
-            });*/
+            });
         } else {
-            this.setState({error: error});
+            this.setState({ error: error });
         }
     }
 
@@ -74,12 +63,12 @@ class SignUp extends Component {
         this.props.history.push('/' + state);
     }
 
-    onChangeDate = date => this.setState({fechaNac: date});
+    onChangeDate = date => this.setState({ fechaNac: date });
 
     render() {
         return (
             <div id="wrapper">
-                <Header {...this.props} rol={'user'} logged={false}/>
+                <Header {...this.props} rol={'user'} logged={false} />
                 {this.state.cargando && <div className="loading">Loading&#8230;</div>}
                 <div id="page-content-wrapper">
                     <div className='container-fluid'>
@@ -92,27 +81,28 @@ class SignUp extends Component {
                                 <form id="Login">
                                     <div className="form-group">
                                         <input type="text" className="form-control"
-                                               id="inputNombre"
-                                               onChange={(evt) => this.setState({nombre: evt.target.value})}
-                                               placeholder="Nombre"/>
+                                            id="inputNombre"
+                                            onChange={(evt) => this.setState({ nombre: evt.target.value })}
+                                            placeholder="Nombre" />
                                     </div>
                                     <div className="form-group">
                                         <input type="text" className="form-control"
-                                               id="inputApellido"
-                                               onChange={(evt) => this.setState({apellido: evt.target.value})}
-                                               placeholder="Apellido"/>
+                                            id="inputApellido"
+                                            onChange={(evt) => this.setState({ apellido: evt.target.value })}
+                                            placeholder="Apellido" />
                                     </div>
                                     <div className="form-group">
                                         <input type="email" className="form-control"
-                                               id="inputEmail"
-                                               onChange={(evt) => this.setState({email: evt.target.value})}
-                                               placeholder="Email"/>
+                                            id="inputEmail"
+                                            onChange={(evt) => this.setState({ email: evt.target.value })}
+                                            placeholder="Email" />
                                     </div>
                                     <div className="form-group datepicker-field">
                                         <input type="text"
-                                               className="form-control datepicker-placeholder"
-                                               readOnly={true}
-                                               placeholder="Fecha Nac."/>
+                                            className="form-control datepicker-placeholder"
+                                            readOnly={true}
+                                            tabIndex="-1"
+                                            placeholder="Fecha Nac." />
                                         <DatePicker
                                             name={'inputNac'}
                                             maxDate={new Date()}
@@ -124,23 +114,23 @@ class SignUp extends Component {
                                     </div>
                                     <div className="form-group">
                                         <input type="password" className="form-control"
-                                               onChange={(evt) => this.setState({password: evt.target.value})}
-                                               id="inputPassword" placeholder="Contraseña"/>
+                                            onChange={(evt) => this.setState({ password: evt.target.value })}
+                                            id="inputPassword" placeholder="Contraseña" />
                                     </div>
                                     <div className="form-group">
                                         <input type="password" className="form-control"
-                                               id="inputPassword2"
-                                               onChange={(evt) => this.setState({password2: evt.target.value})}
-                                               placeholder="Repeti Contraseña"/>
+                                            id="inputPassword2"
+                                            onChange={(evt) => this.setState({ password2: evt.target.value })}
+                                            placeholder="Repeti Contraseña" />
                                     </div>
                                     <div className="error-message">
                                         {this.state.error &&
-                                        <span>{this.state.error}</span>
+                                            <span>{this.state.error}</span>
                                         }
                                     </div>
                                     <button type="button"
-                                            onClick={this.registrarUsuario.bind(this)}
-                                            className="btn btn-primary">Registrarme
+                                        onClick={this.registrarUsuario.bind(this)}
+                                        className="btn btn-primary">Registrarme
                                     </button>
                                     <div className="link-text">
                                         <a onClick={() => this.goTo('')}>¿Ya tenes una cuenta?

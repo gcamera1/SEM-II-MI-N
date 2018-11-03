@@ -1,49 +1,33 @@
-const ip = 'local.baires-health.com';
-const port = '80/app_dev.php';
+import axios from "axios";
 
-export function doLogin(email, password) {
-    return fetch(`http://${ip}:${port}/api/ingresar?email=${email}&password=${password}`, {
-        method: 'get',
-        headers: {'Content-Type': 'application/json'}
-    }).then((response) => {
-        return response.json()
-    }).then((json) => {
-        return json;
-    })
+axios.interceptors.response.use(null, function (error) {
+    return Promise.reject(error.response.data || "Ocurrió un error al realizar la acción.");
+});
 
-    /*
-    if (email === 'bh@bh.com' && password === '123456') {
-        return {
-            id: 2,
-            email: 'bh@bh.com',
-            rol: 'admin'
-        }
-    } else if (email === 'axion@axion.com' && password === '123456') {
-        return {
-            id: 3,
-            email: 'axion@axion.com',
-            empresa: 'Axion',
-            rol: 'usuario'
-        }
-    } else if (email === 'shell@shell.com' && password === '123456') {
-        return {
-            id: 5,
-            email: 'shell@shell.com',
-            empresa: 'Shell',
-            rol: 'usuario'
-        }
-    } else {
-        return null
-    }
-    */
-}
+const baseUrl = '';
+const port = '';
+
+export const doLoginAsesorado = (email, password) => axios.get(`${baseUrl}/api/asesorados/ingresar?email=${email}&password=${password}`)
+    .then(res => res.data);
+
+export const doLoginAsesor = (email, password) => axios.get(`${baseUrl}/api/asesors/ingresar?email=${email}&password=${password}`)
+    .then(res => res.data);
+
+export const listShoppings = () => axios.get(`${baseUrl}/api/shoppings`)
+    .then(res => res.data)
+    .then((shoppings) => shoppings.map(s => ({ label: s.nombre, value: s.id })));
+
+export const registrarAsesorado = ({ nombre, apellido, email, fechaNac, password }) => axios.post(
+    `${baseUrl}/api/asesorados`,
+    { nombre, apellido, email, fechaNac, password }
+);
 
 export function doLoginEmpleado(dni, empresa) {
-    return fetch(`http://${ip}:${port}/api/ingresarpaciente?dni=${dni}&nombreEmpresa=${empresa}`, {
+    return fetch(`${baseUrl}/api/ingresarpaciente?dni=${dni}&nombreEmpresa=${empresa}`, {
         method: 'get',
-        headers: {'Content-Type': 'application/json'}
+        headers: { 'Content-Type': 'application/json' }
     }).then((response) => {
-        return response.json()
+        return response.json();
     }).then((json) => {
         return json;
     })
@@ -68,9 +52,9 @@ export function doLoginEmpleado(dni, empresa) {
 }
 
 export function buscarInasistencia(usuarioId) {
-    return fetch(`http://${ip}:${port}/api/visitahoy?codigoPaciente=${usuarioId}`, {
+    return fetch(`${baseUrl}/api/visitahoy?codigoPaciente=${usuarioId}`, {
         method: 'get',
-        headers: {'Content-Type': 'application/json'}
+        headers: { 'Content-Type': 'application/json' }
     }).then((response) => {
         return response.json();
     }).then((json) => {
@@ -97,7 +81,7 @@ export function crearInasistencia(idPaciente, motivo) {
         descripcionString: motivo
     };
 
-    return fetch(`http://${ip}:${port}/api/solicitarvisita`, {
+    return fetch(`${baseUrl}/api/solicitarvisita`, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json',
@@ -120,7 +104,7 @@ export function crearInasistencia(idPaciente, motivo) {
 }
 
 export function buscarInasistenciaPorEmpresa(empresaId) {
-    return fetch(`http://${ip}:${port}/api/solicitudesvisitaporcliente/${empresaId}`, {
+    return fetch(`${baseUrl}/api/solicitudesvisitaporcliente/${empresaId}`, {
         method: 'get',
         headers: {
             'Content-Type': 'application/json'
@@ -154,7 +138,7 @@ export function buscarInasistenciaPorEmpresa(empresaId) {
 }
 
 export function aceptarInasistencia(data) {
-    return fetch(`http://${ip}:${port}/api/aprobarsolicitudvisita/${data.codigo}`, {
+    return fetch(`${baseUrl}/api/aprobarsolicitudvisita/${data.codigo}`, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json',
@@ -170,7 +154,7 @@ export function aceptarInasistencia(data) {
 }
 
 export function rechazarInasistencia(data) {
-    return fetch(`http://${ip}:${port}/api/denegarsolicitudvisita/${data.codigo}`, {
+    return fetch(`${baseUrl}/api/denegarsolicitudvisita/${data.codigo}`, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json',
@@ -203,7 +187,7 @@ export function buscarListadoDeSolicitudesPorEmpresa(empresaId) {
                         descripcion: 'Visita Otorgada'
                     },
                     codigo_seguimiento: null,
-                    formularios_visita : [
+                    formularios_visita: [
                         {
                             id: 2,
                             medico: {
@@ -268,7 +252,7 @@ export function buscarListadoDeSolicitudesPorEmpresa(empresaId) {
                             no_realizo_control: true,
                             referencia_domicilio: 'Ni en pedo me meto ahí',
                             observaciones: 'Esto es una observación',
-                            estado_no_realizo_control:{
+                            estado_no_realizo_control: {
                                 id: 4,
                                 descripcion: 'Zona Peligrosa'
                             },
@@ -303,7 +287,7 @@ export function buscarListadoDeSolicitudesPorEmpresa(empresaId) {
                         descripcion: 'Aceptada'
                     },
                     codigo_seguimiento: null,
-                    formularios_visita : [
+                    formularios_visita: [
                         {
                             id: 2,
                             medico: {
@@ -394,7 +378,7 @@ export function buscarListadoDeSolicitudesPorEmpresa(empresaId) {
 }
 
 export function buscarListadoDeSolicitudes() {
-    return fetch(`http://${ip}:${port}/api/buscarsolicitudesparabh`, {
+    return fetch(`${baseUrl}/api/buscarsolicitudesparabh`, {
         method: 'get',
         headers: {
             'Content-Type': 'application/json'
@@ -546,7 +530,7 @@ export function buscarListadoDeSolicitudes() {
 }
 
 export function buscarMedicosDisponibles(solicitud) {
-    return fetch(`http://${ip}:${port}/api/medicosparavisita/${solicitud.codigo}`, {
+    return fetch(`${baseUrl}/api/medicosparavisita/${solicitud.codigo}`, {
         method: 'get',
         headers: {
             'Content-Type': 'application/json'
@@ -588,7 +572,7 @@ export function asignarMedicoASolicitud(medico, solicitud) {
         codigoSolicitud: solicitud.codigo,
     };
 
-    return fetch(`http://${ip}:${port}/api/asignarmedico`, {
+    return fetch(`${baseUrl}/api/asignarmedico`, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json',

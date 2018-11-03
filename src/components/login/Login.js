@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Header from '../common/Header';
-import { doLogin } from '../common/actions';
+import { doLoginAsesorado } from '../common/actions';
 import { setStorage } from '../common/storage';
 
 class Login extends Component {
@@ -16,23 +16,21 @@ class Login extends Component {
 
     iniciarSesion() {
         if (this.state.email && this.state.password) {
-            return this.props.history.push('/home');
-            /*this.setState({cargando: true}, () => {
-                doLogin(this.state.email, this.state.password)
+            // return this.props.history.push('/home');
+            this.setState({ cargando: true }, () => {
+                doLoginAsesorado(this.state.email, this.state.password)
                     .then((resp) => {
-                        if (resp.pacientes) delete resp['pacientes'];
+                        console.log("Login response: ", resp);
                         if (resp.rol) {
                             const rol = resp.rol;
                             delete resp['rol'];
                             resp.rol = rol.nombre;
                             resp.level = rol;
                         }
-                        if (resp.codigo) resp.id = resp.codigo;
-                        if (resp.razon_social) resp.empresa = resp.razon_social;
                         setStorage('session', JSON.stringify(resp));
-                        this.setState({cargando: true});
+                        this.setState({ cargando: true });
                         if (resp.rol === 'admin') return this.props.history.push('/listado-solicitudes-bh');
-                        //if (resp.rol === 'usuario') return this.props.history.push('/listado-inasistencia');
+                        if (resp.rol === 'asesorado') return this.props.history.push('/home');
                         if (!resp.rol) return this.setState({
                             error: 'Algo salió mal',
                             cargando: false,
@@ -40,13 +38,13 @@ class Login extends Component {
                             password: null,
                         });
                     })
-                    .catch((err) => {
-                        this.setState({error: 'Algún dato es incorrecto', cargando: false});
-                        console.log(err);
+                    .catch((error) => {
+                        this.setState({ error, cargando: false });
+                        console.log(error);
                     })
-            });*/
+            });
         } else {
-            this.setState({error: 'Tenes que ingresar todos los campos'});
+            this.setState({ error: 'Tenes que ingresar todos los campos' });
         }
     }
 
@@ -57,7 +55,7 @@ class Login extends Component {
     render() {
         return (
             <div id="wrapper">
-                <Header {...this.props} rol={'user'} logged={false}/>
+                <Header {...this.props} rol={'user'} logged={false} />
                 {this.state.cargando && <div className="loading">Loading&#8230;</div>}
                 <div id="page-content-wrapper">
                     <div className='container-fluid'>
@@ -70,14 +68,14 @@ class Login extends Component {
                                 <form id="Login">
                                     <div className="form-group">
                                         <input type="email" className="form-control"
-                                               id="inputEmail"
-                                               onChange={(evt) => this.setState({email: evt.target.value})}
-                                               placeholder="Email"/>
+                                            id="inputEmail"
+                                            onChange={(evt) => this.setState({ email: evt.target.value })}
+                                            placeholder="Email" />
                                     </div>
                                     <div className="form-group">
                                         <input type="password" className="form-control"
-                                               onChange={(evt) => this.setState({password: evt.target.value})}
-                                               id="inputPassword" placeholder="Contraseña"/>
+                                            onChange={(evt) => this.setState({ password: evt.target.value })}
+                                            id="inputPassword" placeholder="Contraseña" />
                                     </div>
                                     <div className="forgot">
                                         <div>¿Olvidaste tu constraseña? Envianos un email a
@@ -86,7 +84,7 @@ class Login extends Component {
                                     </div>
                                     <div className="error-message">
                                         {this.state.error &&
-                                        <span>{this.state.error}</span>
+                                            <span>{this.state.error}</span>
                                         }
                                     </div>
                                     <button type="button" className="btn btn-primary" onClick={this.iniciarSesion.bind(this)}>
