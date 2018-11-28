@@ -3,7 +3,11 @@ import Header from '../common/Header';
 import Sidebar from "../common/Sidebar";
 import Select from 'react-select';
 import moment from 'moment/min/moment-with-locales';
-import { listShoppings } from '../common/actions';
+import { listShoppings, getNextAppointment, cancelAppointment } from '../common/actions';
+import { getUserLogged } from '../common/auth';
+import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom'
+
 
 class Home extends Component {
     constructor(props) {
@@ -11,7 +15,8 @@ class Home extends Component {
         this.state = {
             date: new Date(),
             shopping: null,
-            shoppings: [],
+            shoppings: null,
+            shoppingsSelect: [],
             error: null,
             cargando: false,
             book: null
@@ -20,44 +25,14 @@ class Home extends Component {
 
     componentDidMount() {
         this.setState({ cargando: true }, () => {
+            const user = getUserLogged();
+            getNextAppointment(user.id)
+                .then((appointment) => {
+                    this.setState({ book: appointment, cargando: false });
+                })
             listShoppings()
-                .then((shoppings) => this.setState({ shoppings, cargando: false }))
+                .then(({ select: shoppingsSelect, list: shoppings }) => console.log(shoppingsSelect, shoppings) || this.setState({ shoppingsSelect, shoppings, cargando: false }))
         });
-        const test = [
-            { value: 10001, label: 'Alto Palermo' },
-            { value: 10002, label: 'Alto Avellaneda' },
-            { value: 10003, label: 'Abasto' },
-            { value: 10004, label: 'Dot' },
-            { value: 10005, label: 'Messi' }
-        ];
-        const responseBookAlone = {
-            shopping: {
-                name: 'Alto Palermo',
-                address: 'Santa Fe 3050'
-            },
-            shopper: null,
-            book: {
-                date: moment(new Date()),
-                hour: '15:30 P.M.'
-            }
-        };
-        const responseBook = {
-            shopping: {
-                name: 'Alto Palermo',
-                address: 'Santa Fe 3050'
-            },
-            shopper: {
-                name: 'Flavio Mendoza',
-                phone: '1568384496'
-            },
-            book: {
-                date: moment(new Date()),
-                hour: '15:30 P.M.'
-            }
-        };
-        //this.setState({shoppings: test})
-        //this.setState({shoppings: test, book: responseBookAlone})
-        this.setState({ shoppings: test, book: responseBook })
     }
 
     goTo(state) {
@@ -69,8 +44,10 @@ class Home extends Component {
     }
 
     nextStep() {
-        if (this.state.shopping) {
-            return this.props.history.push('/select-time-to-shop');
+        const { shopping } = this.state;
+        if (shopping) {
+            console.log(shopping);
+            return this.props.history.push(`/select-time-to-shop/${shopping.value}`);
         } else {
             this.setState({ error: 'Seleccione un shopping' });
         }
@@ -82,11 +59,29 @@ class Home extends Component {
         return currentDate.format('ddd DD, MMMM YYYY');
     }
 
+    formatHour(date) {
+        let currentDate = moment(date);
+        currentDate.locale('es');
+        return currentDate.format('hh:mm A');
+    }
+
     cancelBook() {
-        this.setState({ book: null })
+        const { book: { id: appointmentId } } = this.state;
+        cancelAppointment({ appointmentId })
+            .then(() => {
+                toast.success("Turno cancelado con éxito.");
+                this.setState({ book: null });
+            })
+            .catch(() => {
+                toast.error("Ocurrió un erro al cancelar el turno, intente más tarde.");
+            });
     }
 
     render() {
+        const { book, shopping: selectedShopping, shoppings } = this.state;
+        let { asesor, estado, fecha_y_hora: fechaHora, shopping } = "";
+        if (book) ({ asesor, estado, fecha_y_hora: fechaHora, shopping } = book);
+        console.log(selectedShopping, shoppings);
         return (
             <div id="wrapper">
                 <Header {...this.props} rol={'user'} logged={true} />
@@ -98,7 +93,7 @@ class Home extends Component {
                             {!this.state.book &&
                                 <div className="main-div">
                                     <div className="panel">
-                                        <h2>Seleccione su shopping</h2>
+                                        <h2>Elegí el shopping donde querés que te asesoremos.</h2>
                                     </div>
                                     <form id="shopping">
                                         <div className="form-group">
@@ -119,9 +114,23 @@ class Home extends Component {
                                                     name="shoppings"
                                                     value={this.state.shopping}
                                                     onChange={this.onChange.bind(this)}
-                                                    options={this.state.shoppings}
+                                                    options={this.state.shoppingsSelect}
                                                 />
                                             </div>
+                                            {selectedShopping && (
+                                                <React.Fragment>
+                                                    <div className="clearfix"></div>
+                                                    <div className="shopping-info row">
+                                                        <p className="descripcion text-left">
+                                                            {shoppings[selectedShopping.value].descripcion}
+                                                        </p>
+                                                    </div>
+                                                    <div className="direccion">
+                                                        <a target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${shoppings[selectedShopping.value].latitud},${shoppings[selectedShopping.value].longitud}`}>
+                                                            {shoppings[selectedShopping.value].direccion}
+                                                        </a></div>
+                                                </React.Fragment>
+                                            )}
                                         </div>
                                         <div className="error-message">
                                             {this.state.error &&
@@ -138,41 +147,41 @@ class Home extends Component {
                             {this.state.book &&
                                 <div className="main-div">
                                     <div className="panel">
-                                        <h2 className='book-title'>Tu encuentro</h2>
+                                        <h2 className='book-title'>Información de tu encuentro</h2>
                                     </div>
                                     <div className='book-info'>
                                         <div>
                                             <span>
                                                 <i className="far fa-building" />
                                             </span>
-                                            <span>{this.state.book.shopping.name + ' (' + this.state.book.shopping.address + ')'}</span>
+                                            <span>{shopping.nombre + ' (' + shopping.direccion + ')'}</span>
                                         </div>
                                         <div>
                                             <span>
                                                 <i className="far fa-calendar-alt" />
                                             </span>
-                                            <span>{this.formatDate(this.state.book.book.date)}</span>
+                                            <span>{this.formatDate(fechaHora)}</span>
                                         </div>
                                         <div>
                                             <span>
                                                 <i className="far fa-clock" />
                                             </span>
-                                            <span>{this.state.book.book.hour}</span>
+                                            <span>{this.formatHour(fechaHora)}</span>
                                         </div>
                                         <div>
                                             <span>
                                                 <i className="far fa-user" />
                                             </span>
                                             <span>
-                                                {(this.state.book.shopper) ? this.state.book.shopper.name : 'Estamos buscandote un personal shopper para vos'}
+                                                {(this.state.book.asesor) ? `${this.state.book.asesor.nombre} ${this.state.book.asesor.apellido}` : 'Le estamos avisando a tu personal shopper'}
                                             </span>
                                         </div>
-                                        {this.state.book.shopper &&
-                                            <div>
+                                        {this.state.book.asesor && this.state.book.asesor.phone &&
+                                            < div >
                                                 <span>
                                                     <i className="fab fa-whatsapp" />
                                                 </span>
-                                                <span>{this.state.book.shopper.phone}</span>
+                                                <span>{this.state.book.asesor.phone}</span>
                                             </div>
                                         }
                                     </div>
@@ -185,7 +194,7 @@ class Home extends Component {
                                     </a>
                                     </div>
                                     <div className="cancel-book">
-                                        <span>*No te olvides que podes cancelar hasta 2 horas antes de tu encuentro</span>
+                                        <span>*No te olvides que podes cancelar hasta 2 horas antes de tu encuentro sin costo adicional.</span>
                                     </div>
 
                                     <div className="modal fade bs-example-modal-sm" tabIndex="-1" role="dialog"

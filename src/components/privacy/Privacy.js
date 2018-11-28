@@ -8,7 +8,7 @@ class Privacy extends Component {
     }
 
     componentDidMount() {
-        if(this.props.location.state.rol === 'shopper') {
+        if (this.props.location.state.rol === 'shopper') {
             let element = document.getElementById('body');
             element.classList.add('shopper-background');
         }
@@ -22,8 +22,8 @@ class Privacy extends Component {
     render() {
         return (
             <div id="wrapper">
-                <Header {...this.props} rol={this.props.location.state.rol || 'user'} logged={true}/>
-                <Sidebar {...this.props} rol={this.props.location.state.rol || 'user'}/>
+                <Header {...this.props} rol={this.props.location.state.rol || 'user'} logged={true} />
+                <Sidebar {...this.props} rol={this.props.location.state.rol || 'user'} />
                 <div id="page-content-wrapper">
                     <div className='container-fluid'>
                         <div className='document'>
@@ -43,7 +43,7 @@ class Privacy extends Component {
                             <p>
                                 Visibilidad de los datos:
                                 El nombre de usuario y avatar será visible en caso de que un usuario
-                                realice un comentario a un restaurante particular. PedidosYa puede
+                                realice un comentario a un restaurante particular. Vesti.me puede
                                 mostrar el nombre del usuario con su nuevo registro y su último
                                 pedido a un local en la sección Actividad Reciente de nuestro sitio
                                 web.

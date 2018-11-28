@@ -15,16 +15,35 @@ export const doLoginAsesor = (email, password) => axios.get(`${baseUrl}/api/ases
 
 export const listShoppings = () => axios.get(`${baseUrl}/api/shoppings`)
     .then(res => res.data)
-    .then((shoppings) => shoppings.map(s => ({ label: s.nombre, value: s.id })));
+    .then((shoppings) => {
+        const select = shoppings.map(s => ({ label: s.nombre, value: s.id }));
+        const list = {};
+        shoppings.forEach((s) => list[s.id] = s);
+        return { select, list };
+    });
 
 export const registrarAsesorado = ({ nombre, apellido, email, fechaNac, password }) => axios.post(
     `${baseUrl}/api/asesorados`,
     { nombre, apellido, email, fechaNac, password }
 ).then(res => res.data);
 
-export const actualizarAsesorado = ({ id, nombre, apellido, fechaNac }) => axios.put(`${baseUrl}/api/asesorados/${id}`, {
-    nombre, apellido, fechaNac
+export const actualizarAsesorado = ({ id, nombre, apellido, fecha_nacimiento }) => axios.put(`${baseUrl}/api/asesorados/${id}`, {
+    nombre, apellido, fecha_nacimiento
 }).then(res => res.data);
+
+export const crearAppointment = ({ fechaYHora, asesoradoId, shoppingId }) => axios.post(`${baseUrl}/api/appointments`, {
+    fechaYHora,
+    asesoradoId,
+    shoppingId
+}).then(res => res.data);
+
+export const getNextAppointment = (asesoradoId) => axios.get(`${baseUrl}/api/appointments/proximo?asesoradoId=${asesoradoId}`)
+    .then((res => res.data));
+
+export const cancelAppointment = ({ appointmentId, motivoCancelacion }) => axios.delete(`${baseUrl}/api/appointments/${appointmentId}`, {
+    motivoCancelacion
+})
+    .then((res => res.data));
 
 export function doLoginEmpleado(dni, empresa) {
     return fetch(`${baseUrl}/api/ingresarpaciente?dni=${dni}&nombreEmpresa=${empresa}`, {

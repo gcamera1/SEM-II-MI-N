@@ -85,6 +85,12 @@ class Sidebar extends Component {
                             </a>
                         </li>
                         <li>
+                            <a onClick={() => this.goToWithProps('contact', this.props.rol)}
+                                className={this.isActive('/contact') ? 'sidebar-active' : ''}>
+                                <span>Contacto</span>
+                            </a>
+                        </li>
+                        <li>
                             <a onClick={() => this.logout()}>
                                 <span>Cerrar Sesión</span>
                             </a>
@@ -94,11 +100,11 @@ class Sidebar extends Component {
                                 <div className='social-container'>
                                     <span className='social-text'>Seguinos en:</span>
                                     <span className='social-img-cont'>
-                                        <a href="https://www.facebook.com/ventaderopa.barata.5"
+                                        <a href="https://www.facebook.com/vestime.app.9"
                                             target="_blank" className='social-img'><img
                                                 src={require('../../images/Facebook-icon-1.png')} />
                                         </a>
-                                        <a href="https://www.instagram.com/outletropabarata/"
+                                        <a href="https://www.instagram.com/vesti.me.app/"
                                             target="_blank" className='social-img'><img
                                                 src={require('../../images/insta.png')} />
                                         </a>

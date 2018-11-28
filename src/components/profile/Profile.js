@@ -12,12 +12,12 @@ class Profile extends Component {
     constructor(props) {
         super(props);
         const user = JSON.parse(getStorage('session'));
-        const { id, nombre, apellido, fechaNac } = user;
+        const { id, nombre, apellido, fecha_nacimiento } = user;
         this.state = {
             id,
             nombre,
             apellido,
-            fechaNac,
+            fecha_nacimiento,
             error: null,
             cargando: false
         };
@@ -26,9 +26,9 @@ class Profile extends Component {
     guardarPerfil() {
         let error = this.validarDatos();
         if (!error) {
-            const { id, nombre, apellido, fechaNac } = this.state;
+            const { id, nombre, apellido, fecha_nacimiento } = this.state;
             this.setState({ cargando: true }, () => {
-                actualizarAsesorado({ id, nombre, apellido, fechaNac })
+                actualizarAsesorado({ id, nombre, apellido, fecha_nacimiento })
                     .then(res => {
                         setUserLocalStorage(res);
                         this.setState({ cargando: false });
@@ -49,7 +49,7 @@ class Profile extends Component {
         let error = null;
         if (!this.state.nombre) return error = 'Tenes que ingresar tu nombre';
         if (!this.state.apellido) return error = 'Tenes que ingresar tu apellido';
-        if (!this.state.fechaNac) return error = 'Tenes que ingresar tu fecha de nacimiento';
+        if (!this.state.fecha_nacimiento) return error = 'Tenes que ingresar tu fecha de nacimiento';
 
         return error;
     }
@@ -58,10 +58,10 @@ class Profile extends Component {
         this.props.history.push('/' + state);
     }
 
-    onChangeDate = date => this.setState({ fechaNac: date });
+    onChangeDate = date => this.setState({ fecha_nacimiento: date });
 
     render() {
-        const { nombre, apellido, fechaNac } = this.state;
+        const { nombre, apellido, fecha_nacimiento } = this.state;
         return (
             <div id="wrapper">
                 <Header {...this.props} rol={'user'} logged={true} />
@@ -100,7 +100,7 @@ class Profile extends Component {
                                             clearIcon={null}
                                             className={['form-control', 'datepicker-input']}
                                             onChange={this.onChangeDate}
-                                            value={fechaNac}
+                                            value={fecha_nacimiento}
                                         />
                                     </div>
                                     <div className="error-message">
