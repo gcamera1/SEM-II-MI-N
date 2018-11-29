@@ -12,7 +12,7 @@ class SelectTimeToShop extends Component {
         super(props);
         console.log("Props: ", props);
         const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setDate(tomorrow.getDate());
         this.state = {
             date: tomorrow,
             hour: { value: 6, label: '06' },
@@ -67,7 +67,7 @@ class SelectTimeToShop extends Component {
 
     render() {
         const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setDate(tomorrow.getDate());
 
         return (
             <div id="wrapper">

@@ -37,7 +37,7 @@ export const crearAppointment = ({ fechaYHora, asesoradoId, shoppingId }) => axi
     shoppingId
 }).then(res => res.data);
 
-export const getNextAppointment = (asesoradoId) => axios.get(`${baseUrl}/api/appointments/proximo?asesoradoId=${asesoradoId}`)
+export const getNextAppointment = (asesoradoId, isAsesor) => axios.get(`${baseUrl}/api/appointments/proximo?usuarioId=${asesoradoId}${isAsesor ? '&isAsesor=true' : '&isAsesor=false'}`)
     .then((res => res.data));
 
 export const cancelAppointment = ({ appointmentId, motivoCancelacion }) => axios.delete(`${baseUrl}/api/appointments/${appointmentId}`, {

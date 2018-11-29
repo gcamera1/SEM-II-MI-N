@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Header from '../common/Header';
 import Sidebar from "../common/Sidebar";
 import moment from 'moment/min/moment-with-locales';
+import { getUserLogged } from '../common/auth';
+import { getNextAppointment } from '../common/actions';
 
 const appointments = [
     {
@@ -85,7 +87,12 @@ class HomeShopper extends Component {
     componentDidMount() {
         let element = document.getElementById('body');
         element.classList.add('shopper-background');
-        this.setState({ book: appointments[0] })
+        // this.setState({ book: appointments[0] })
+        const user = getUserLogged();
+        getNextAppointment(user.id, true)
+            .then((appointment) => {
+                this.setState({ book: appointment, cargando: false });
+            })
     }
 
     componentWillUnmount() {
@@ -102,6 +109,8 @@ class HomeShopper extends Component {
     startTimer = () => this.setState({ hasTimerStarted: true });
 
     handleStop = (time) => this.setState({ recorridoFinished: true, time })
+
+    reset = () => this.setState({ book: null });
 
     render() {
         const { hasTimerStarted, recorridoFinished, time } = this.state;
@@ -147,7 +156,7 @@ class HomeShopper extends Component {
                                             <span>
                                                 <i className="far fa-clock" />
                                             </span>
-                                            <span>{this.state.book.fecha_y_hora}</span>
+                                            <span>{moment(this.state.book.fecha_y_hora).format('HH:mm')}</span>
                                         </div>
                                         <div>
                                             <span>
@@ -171,6 +180,7 @@ class HomeShopper extends Component {
                                         <div className="book-message book-message-shopper">
                                             <h2>Recorrido finalizado</h2>
                                             <h4>Duracion: {durationBeauty}</h4>
+                                            <button type="button" data-dismiss="modal" onClick={this.reset} className="btn btn-primary button-modal-accept">Volver</button>
                                         </div>
                                     ) : !hasTimerStarted ? (
                                         <React.Fragment>

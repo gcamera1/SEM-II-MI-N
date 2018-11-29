@@ -121,7 +121,7 @@ class Home extends Component {
                                                 <React.Fragment>
                                                     <div className="clearfix"></div>
                                                     <div className="shopping-info row">
-                                                        <p className="descripcion text-left">
+                                                        <p className="descripcion text-left" style={{ margin: "20px" }}>
                                                             {shoppings[selectedShopping.value].descripcion}
                                                         </p>
                                                     </div>
